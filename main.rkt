@@ -1,6 +1,6 @@
 #lang racket
 
-(require "excepcion.rkt")         ;definimos que este archivo tendra la excepcion 
+(require "excepcion.rkt")         ;definimos que este archivo importara la excepcion 
 
 (define (procesar entrada)        ;definimos una funcion que validara cn nuestra excepcion la entrada
   (validar-entrada entrada)       
