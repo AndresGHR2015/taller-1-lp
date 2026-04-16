@@ -5,7 +5,7 @@
          exn:fail:numero-input
          validar-entrada)     ;exportamo todo esto pa afuera
 
-(struct exn:fail:numero exn:fail (input) #:transparent) ;definimos nuestro nuevo error 
+(struct exn:fail:numero exn:fail (input)) ;definimos nuestro nuevo error 
                                                         ;el cual hereda d exn:fail
 
 (define (contiene-numeros? s)
