@@ -19,7 +19,7 @@
       [(or (eof-object? entrada) (string-ci=? entrada "xao"))     ;si es EndOfFile o xao
        (displayln "Fin del programa")]        ;si es el caso, fin del programa
       [else
-       (with-handlers ([exn:fail:numero?      ;si no es xao, ahora capturamos una excepcion si existe sin botar el codigo
+       (with-handlers ([exn:fail:numero?      ;si no es xao, aca capturaremos la excepcion sin botar el codigo
                         (lambda (e)           
                           (printf "[Excepcion personalizada] ~a~n" (exn-message e))
                             (printf "Entrada recibida: ~a~n" (exn:fail:numero-input e))
