@@ -39,7 +39,7 @@ Resultado: aloo tu escribiste: hola
 ```
 
 
- #Dependencias
+ # Dependencias
 (require "excepcion.rkt")
 
 Se importa el archivo excepcion.rkt, que contiene:
@@ -50,37 +50,30 @@ La excepción personalizada exn: fail: numero?
 ##  Funcionalidades
 
 * Lectura de texto desde consola
+* Valida la entrada usando validar-entrada.
 * Validación de entrada (solo letras)
+  Si la entrada es válida:
+  Elimina espacios en blanco con string-trim.
+  Retorna un mensaje concatenado con el texto ingresado.
 * Manejo de excepciones personalizadas
-* Manejo de errores generales
 * Ejecución en bucle hasta salida del usuario
-
-
-* Función: procesar
-(define (procesar entrada)
-(validar-entrada entrada)
-(string-append "aloo tu escribiste: " (string-trim entrada)))
-  Funcionalidad:
-Valida la entrada usando validar-entrada.
-Si la entrada es válida:
-Elimina espacios en blanco con string-trim.
-Retorna un mensaje concatenado con el texto ingresado.
+* Manejo de errores generales
 Posibles errores:
 Si contiene números → lanza una excepción personalizada.
-* Función:  main
-(define (main)
-Funcionalidad general:
-Controla la ejecución del programa e interacción con el usuario.
 
-###Mensajes iniciales
+* Función: procesar →  (define (procesar entrada) → (validar-entrada entrada) → (string-append "aloo tu escribiste: " (string-trim entrada)))
+
+* Función:  main → (define (main) → Funcionalidad general → Controla la ejecución del programa e interacción con el usuario.
+
+### Mensajes iniciales
 (displayln "Holaaa, diremos lo que escribiste pero solo letras")
 (displayln "Si escribes numeros el programa tirara una excepcion personalizada")
 (displayln "Si quieres terminar el codigo, escribe 'xao'")
 
 Se muestran instrucciones al usuario.
 
-##Bucle principal (loop)
-###Repetición del ciclo
+## Bucle principal (loop)
+### Repetición del ciclo
 (loop)
 
 El programa vuelve a pedir entrada indefinidamente hasta que el usuario salga.
@@ -97,7 +90,7 @@ Procesa el texto
 Maneja errores
 Se repite hasta que el usuario decida salir
 
-###Lectura de entrada
+### Lectura de entrada
 
 (display "Ingresa un texto: ")
 (flush-output)
