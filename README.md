@@ -1,152 +1,50 @@
-# taller-1-lp
-##  Descripción
+# Taller 1: Lenguajes de Programación
 
-Este programa desarrollado en **Racket** permite al usuario ingresar texto por consola y devuelve un mensaje con la entrada procesada.
+## Descripción
+Este programa, desarrollado en **Racket**, consiste en una aplicación interactiva por consola orientada al procesamiento de cadenas de texto aplicando principios del paradigma funcional. 
 
-El sistema valida que la entrada contenga **solo letras**.
-Si el usuario ingresa números, se lanza una **excepción personalizada** sin detener la ejecución del programa.
+El sistema valida que la entrada del usuario no contenga caracteres numericos, gestionando los flujos de error (en este caso contener numeros) mediante el uso de excepciones personalizadas. El ciclo de ejecución se mantiene activo de forma continua y tolerante a fallos hasta recibir una instrucción explícita de finalización.
 
-El programa se ejecuta en un ciclo continuo hasta que el usuario escribe `"xao"` o se detecta fin de archivo.
-## Requisitos
-
-* Tener instalado **Racket**
-* Editor recomendado: **DrRacket**
----
-
-## Ejecución
-
-1. Abrir el archivo `main.rkt`
-2. Ejecutar el programa
-3. Ingresar texto cuando se solicite
-
----
-
-## Uso del Programa
-
-Al iniciar, se mostrarán instrucciones:
-
-```
-Holaaa, diremos lo que escribiste pero solo letras
-Si escribes numeros el programa tirara una excepcion personalizada
-Si quieres terminar el codigo, escribe 'xao'
+## Estructura de Archivos
+```text
+taller-1-lp/
+├── src/
+│   ├── main.rkt      
+│   └── excepcion.rkt 
+└── README.md
 ```
 
-Luego podrás ingresar texto:
+* `src/main.rkt`: Módulo principal. Orquesta el bucle de ejecución, gestiona la entrada/salida estándar (I/O) y contiene el bloque manejador de excepciones.
+* `src/excepcion.rkt`: Módulo de utilidad. Define la estructura de la excepción personalizada y aloja la lógica de la función validadora de caracteres.
 
-```
-Ingresa un texto: hola
-Resultado: aloo tu escribiste: hola
-```
+## Requisitos y Ejecución
+* **Entorno:** Racket (Se recomienda el uso del IDE DrRacket).
 
+**Instrucciones de uso:**
+1. Ejecutar el archivo `src/main.rkt`.
+2. Al iniciar, el sistema desplegará las siguientes instrucciones por consola:
+   > Holaaa, diremos lo que escribiste pero no puedes escribir numeros
 
- # Dependencias
-(require "excepcion.rkt")
+   > Si escribes numeros el programa tirara una excepcion personalizada
 
-Se importa el archivo excepcion.rkt, que contiene:
+   > Si quieres terminar el codigo, escribe 'xao'
+3. Ingresar las cadenas de texto según lo solicitado.
 
-La función validar-entrada
-La excepción personalizada exn: fail: numero?
+## Matriz de Entradas y Comportamiento del Sistema
+El programa evalúa activamente cada línea proporcionada por el usuario, reaccionando según los siguientes escenarios de entrada:
 
-##  Funcionalidades
+* **Texto válido:** El sistema procesa la cadena eliminando los espacios en blanco de los extremos mediante `string-trim` y retorna el resultado concatenado (Ejemplo de salida: `aloo tu escribiste: [texto]`).
+* **Texto con números:** La validación detecta el tipo de dato incorrecto, interrumpiendo el flujo secuencial para levantar la excepción personalizada. El error es notificado en consola y el sistema reanuda la solicitud de entrada sin finalizar el proceso.
+* **Símbolos o caracteres especiales (ej. `@#$`):** Dado que la validación se centra en restringir valores numéricos, los símbolos son omitidos por la restricción y se imprimen en la respuesta estándar.
+* **Entradas vacías o compuestas por espacios:** La función `string-trim` normaliza la entrada devolviendo una cadena vacía, entregando la respuesta estándar sin generar inestabilidad en el ciclo.
+* **Comando de salida explícito:** Mediante la función `string-ci=?`, el sistema detecta la palabra clave `"xao"` (insensible a mayúsculas/minúsculas), finalizando limpiamente el bucle de ejecución.
+* **Interrupción del flujo (EOF):** El sistema implementa `eof-object?` para capturar señales de fin de archivo (como `Ctrl+D`), permitiendo un cierre seguro sin colapsar el entorno de ejecución.
 
-* Lectura de texto desde consola
-* Valida la entrada usando validar-entrada.
-* Validación de entrada (solo letras)
-  Si la entrada es válida:
-  Elimina espacios en blanco con string-trim.
-  Retorna un mensaje concatenado con el texto ingresado.
-* Manejo de excepciones personalizadas
-* Ejecución en bucle hasta salida del usuario
-* Manejo de errores generales
-Posibles errores:
-Si contiene números → lanza una excepción personalizada.
+## Detalle de la Excepción Personalizada
+Para aislar el error derivado del ingreso de caracteres numéricos y evitar la finalización abrupta del script, se implementó un manejo de errores basado en la siguiente estructura:
 
-* Función: procesar →  (define (procesar entrada) → (validar-entrada entrada) → (string-append "aloo tu escribiste: " (string-trim entrada)))
-
-* Función:  main → (define (main) → Funcionalidad general → Controla la ejecución del programa e interacción con el usuario.
-
-### Mensajes iniciales
-(displayln "Holaaa, diremos lo que escribiste pero solo letras")
-(displayln "Si escribes numeros el programa tirara una excepcion personalizada")
-(displayln "Si quieres terminar el codigo, escribe 'xao'")
-
-Se muestran instrucciones al usuario.
-
-## Bucle principal (loop)
-### Repetición del ciclo
-(loop)
-
-El programa vuelve a pedir entrada indefinidamente hasta que el usuario salga.
-* Ejecución del programa
-(main)
-
-Se inicia la ejecución llamando a la función principal.
-(let loop ()
-
-Se crea un bucle recursivo que:
-
-Solicita entrada al usuario
-Procesa el texto
-Maneja errores
-Se repite hasta que el usuario decida salir
-
-### Lectura de entrada
-
-(display "Ingresa un texto: ")
-(flush-output)
-(define entrada (read-line))
-Muestra el prompt
-Lee una línea desde la consola
-
-##  Manejo de Errores
-
-Excepción personalizada
-
-Si el usuario ingresa números:
-
-```
-Ingresa un texto: hola123
-[Excepcion personalizada] Error: solo se permiten letras
-Entrada recibida: hola123
-```
-
-El programa continúa ejecutándose.
-
----
-
-### Error general
-
-Cualquier otro error es capturado para evitar que el programa se cierre inesperadamente.
-
----
-
-## Finalización
-
-El programa termina cuando el usuario escribe:
-
-```
-xao
-```
-
-o cuando se detecta fin de archivo.
-
----
-
-##  Conceptos Aplicados
-
-* Programación funcional
-* Manejo de excepciones en Racket
-* Recursividad (bucle con `let loop`)
-* Validación de entrada
-* Separación de responsabilidades (módulos)
-
-
----
-##  Posibles mejoras
-
-* Permitir más tipos de validación (símbolos, espacios, etc.)
-* Interfaz gráfica
-* Historial de entradas del usuario
-* Tests automatizados
-
----
+* **Nombre de la estructura:** `exn:fail:numero?`
+* **Gatillo lógico:** La excepción es invocada explícitamente en la función `validar-entrada` cuando la iteración sobre los caracteres de la cadena retorna `#t` al ser evaluada por la función primitiva `char-numeric?`.
+* **Componentes:** Hereda de la estructura base `exn:fail` de Racket. Incorpora un atributo adicional (`input`) diseñado para almacenar y exponer la cadena de texto exacta que provocó la falla.
+* **Funcionamiento:** Dentro del archivo principal, la validación se ejecuta encapsulada en un formulario `with-handlers` acoplado al `let loop`. Al capturar el error, el manejador extrae el valor conflictivo mediante `exn:fail:numero-input`, imprime el reporte en consola y delega la continuidad invocando nuevamente a `(loop)`.
+* **Objetivo:** Implementar un patrón de diseño tolerante a fallos que aisle discrepancias de tipado, proveyendo retroalimentación inmediata al usuario y garantizando la persistencia de la interfaz por terminal.

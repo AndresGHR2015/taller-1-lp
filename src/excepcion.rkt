@@ -16,6 +16,6 @@
   (when (contiene-numeros? entrada)
     (raise                            ;devolvemos excepcion si contiene numero
      (exn:fail:numero
-      "Entrada invalida: se recibieron numeros en lugar de letras"
+      "Entrada invalida: se recibieron numeros en el string"
       (current-continuation-marks)    
       entrada))))
